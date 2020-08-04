@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { Card } from "antd";
 
 const MyCard = styled(Card)`
-  margin-top: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   width: 800px;
 `;
 

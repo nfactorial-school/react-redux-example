@@ -1,23 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Layout, PageHeader } from "antd";
-import { useFirebase } from "../firebase/useFirebase";
+import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import CreatePost from "./CreatePost";
 import SinglePost from "./SinglePost";
+import { fetchPosts, signout, fetchUser } from "../actions";
 
 const MainLayout = styled(Layout)`
   width: 100vw;
   height: 100vh;
   align-items: center;
+  overflow-y: auto;
 `;
 
 const Header = styled(PageHeader)`
   width: 1000px;
 `;
 
-function MainPage() {
-  const { user, signout, posts } = useFirebase();
+function MainPage({ user, posts, fetchPosts, fetchUser, signout }) {
   const [display, setDisplay] = React.useState("default"); // default, create
 
   const onLogoutClick = () => {
@@ -27,6 +28,12 @@ function MainPage() {
       console.log("error logging out");
     }
   };
+
+  React.useEffect(() => {
+    console.log("fetchPosts is called");
+    fetchPosts();
+    fetchUser();
+  }, [fetchPosts, fetchUser]);
 
   const onCreatePostClick = () => {
     setDisplay("create");
@@ -79,4 +86,10 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+const mapStateToProps = ({ user, posts }) => {
+  return { user, posts };
+};
+
+export default connect(mapStateToProps, { fetchPosts, signout, fetchUser })(
+  MainPage
+);

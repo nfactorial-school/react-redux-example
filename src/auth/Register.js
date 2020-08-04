@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { Form, Input, Button, Layout, message, PageHeader } from "antd";
 import { Link } from "@reach/router";
 import { useNavigate } from "@reach/router";
-import { useFirebase } from "../firebase/useFirebase";
+import { register } from "../actions";
 
 const MainLayout = styled(Layout)`
   width: 100vw;
@@ -14,8 +15,7 @@ const MainLayout = styled(Layout)`
 
 const TextLayout = styled.div``;
 
-function Register() {
-  const { register } = useFirebase();
+function Register({ register }) {
   const navigate = useNavigate();
 
   const onFormFinish = async (values) => {
@@ -74,4 +74,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default connect(null, { register })(Register);

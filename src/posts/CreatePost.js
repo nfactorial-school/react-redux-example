@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { Form, Input, Button, Layout, PageHeader, message, Space } from "antd";
-import { useFirebase } from "../firebase/useFirebase";
+import { post } from "../actions";
 
 const MainLayout = styled(Layout)`
   width: 100vw;
@@ -17,9 +18,7 @@ const MyForm = styled(Form)`
   width: 1000px;
 `;
 
-function CreatePost({ onCancelClick }) {
-  const { post } = useFirebase();
-
+function CreatePost({ onCancelClick, post }) {
   const onFormFinish = async (values) => {
     console.log("got some values", values);
     await post(values);
@@ -61,4 +60,4 @@ function CreatePost({ onCancelClick }) {
   );
 }
 
-export default CreatePost;
+export default connect(null, { post })(CreatePost);
